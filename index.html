@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Parcel Sandbox</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+		.site {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+		}
+		/* 
+			Loader
+		*/
+		.loader {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+		.newsTable {
+			width: 100%;
+			max-width: 1000px;
+			border-spacing: 0;
+			display: none;
+		}
+		/* 
+			Table Head
+		*/
+		.headRow {
+			height: 50px;
+		}
+		.headCell {
+			text-align: left;
+			padding: 0 14px;
+			align-items: flex-start;
+		}
+		.headCell__link {
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+		}
+		.headCell__link:hover {
+			text-decoration: underline;
+		}
+		.headCell__link.active::after {
+			font-size: 10px;
+			padding: 0 7px;
+			{# background: red; #}
+		}
+		.headCell__link.asc::after {
+			content: '▲';
+		}
+		.headCell__link.desc::after {
+			content: '▼';
+		}
+		/* 
+			News Row
+		*/
+		.newsRow {
+			height: 75px;
+    		background-size: cover;
+			background-position: center;
+		}
+		.newsCell {
+			padding: 0 14px;
+			border-bottom: solid 1px #fff;
+			background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 10%, rgba(255,255,255,0) 100%);
+			color: #fff;
+		}
+		.newsRow__creationDate {
+			text-align: right;
+			background: linear-gradient(270deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 10%, rgba(255,255,255,0) 100%);
+		}
+		.newsRow__image {
+			padding: 0;
+		}
+		.newsRow__imageElement {
+			objectFit: cover;
+			width: 100%;
+			height: 150px;
+			vertical-align: top;
+			padding: 0;
+		}
+		.newsRow__linkElement {
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<template id="newsRow">
+		<tr class="newsRow">
+			<td class="newsCell newsRow__displayName">
+				<a class="newsRow__linkElement" href="#">
+					{{ displayName }}
+				</a>
+			</td>
+			<td class="newsCell newsRow__creationDate">{{ creationDate }}</td>
+		</tr>
+	</template>
+	<div class="site">
+		<div class="loader">
+			<div class="loader__svg">
+				<!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
+				<svg width="45" height="45" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" stroke="#000">
+					<g fill="none" fill-rule="evenodd" transform="translate(1 1)" stroke-width="2">
+						<circle cx="22" cy="22" r="6" stroke-opacity="0">
+							<animate attributeName="r"
+								begin="1.5s" dur="3s"
+								values="6;22"
+								calcMode="linear"
+								repeatCount="indefinite" />
+							<animate attributeName="stroke-opacity"
+								begin="1.5s" dur="3s"
+								values="1;0" calcMode="linear"
+								repeatCount="indefinite" />
+							<animate attributeName="stroke-width"
+								begin="1.5s" dur="3s"
+								values="2;0" calcMode="linear"
+								repeatCount="indefinite" />
+						</circle>
+						<circle cx="22" cy="22" r="6" stroke-opacity="0">
+							<animate attributeName="r"
+								begin="3s" dur="3s"
+								values="6;22"
+								calcMode="linear"
+								repeatCount="indefinite" />
+							<animate attributeName="stroke-opacity"
+								begin="3s" dur="3s"
+								values="1;0" calcMode="linear"
+								repeatCount="indefinite" />
+							<animate attributeName="stroke-width"
+								begin="3s" dur="3s"
+								values="2;0" calcMode="linear"
+								repeatCount="indefinite" />
+						</circle>
+						<circle cx="22" cy="22" r="8">
+							<animate attributeName="r"
+								begin="0s" dur="1.5s"
+								values="6;1;2;3;4;5;6"
+								calcMode="linear"
+								repeatCount="indefinite" />
+						</circle>
+					</g>
+				</svg>
+			</div>
+			<div class="loader__text">
+				Querying Destiny 2 API
+			</div>
+		</div>
+		<table class="newsTable">
+			<thead>
+				<tr class="headRow">
+					<th class="headCell sortable">
+						<span class="headCell__link" data-fieldName="displayName">Name</span>
+					</th>
+					<th class="headCell sortable headRow__date">
+						<span class="headCell__link" data-fieldName="creationDate">Date</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody class="newsContents" />
+		</table>
+	</div>
+	<script src="src/index.js">
+	</script>
+</body>
+
+</html>
