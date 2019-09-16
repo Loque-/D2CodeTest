@@ -12,6 +12,7 @@ import { basicSort } from "/src/utils.js";
  * [x] Display some notification to the user that we are fetching data
  * [ ] Catch error and render something to the user
  * [ ] Add a readme for context and information to anyone observing the project from github
+ * [ ] Add API key information to Readme
  *
  * Extra
  * [x] Put items together and render in one go instead of render during iterating
