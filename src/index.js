@@ -4,7 +4,7 @@ import { basicSort } from "/src/utils.js";
  * TODO:
  *
  * [x] Get API key, check docs and get some data back from the Bungie API
- * [x] Read up on web components and implement something basic
+ * [x] Read up on web components and implement something basic (template)
  * [x] Loop through data and display a table row for each item
  * [x] Add some basic sort function
  * [x] Make th clickable to select sort criteria and toggle sort direction
@@ -17,13 +17,14 @@ import { basicSort } from "/src/utils.js";
  * [x] Add some fancy styling
  * [x] Add some styling to indicate which column is being sorted
  * [x] Move Utility function to module and import
- * [ ] Create basic descrete web components from templates
- * [ ] Tidy css
+ * [ ] Create basic discrete web components from templates
+ * [ ] Tidy css and class names
  *
  * Notes
- * [1] I am aware of race conditions and the dangers of managing state in this way (side effects), in particular the render and sort function
+ * [1] I am aware of race conditions and the dangers of managing state in this way (side effects)
  * [2] Ideally state manipulation would be managed agnostic of components, they fire events for a state manager and re-render if/when new data is provided to them
- * [3] There are assumptions for things like, having data in the render function
+ * [3] There are assumptions for things like, having data in the render function and load order
+ * [4] Code has been left inplace so it is quick to create discrete components, instead of moving code to individual files prematurely
  *
  */
 
@@ -76,10 +77,9 @@ function RenderDataFromState() {
     tableRow.querySelector(
       ".newsRow"
     ).style.backgroundImage = `url(https://www.bungie.net/${row.image})`;
-    tableRow.querySelector(".newsRow__linkElement").textContent =
-      row.displayName;
+    tableRow.querySelector(".newsCell__link").textContent = row.displayName;
     tableRow
-      .querySelector(".newsRow__linkElement")
+      .querySelector(".newsCell__link")
       .setAttribute("href", `https://www.bungie.net/${row.link}`);
 
     tableRow.querySelector(".newsRow__creationDate").textContent = new Date(

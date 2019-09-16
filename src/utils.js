@@ -3,10 +3,10 @@
  * with a defined field, sort direction, and provide a primer
  * function if required
  *
- * Lifted from https://stackoverflow.com/a/979325
+ * Sourced from https://stackoverflow.com/a/979325
  */
 export function basicSort(field, reverse, primer) {
-  var key = primer
+  const key = primer
     ? function(x) {
         return primer(x[field]);
       }
