@@ -22,6 +22,7 @@ import { basicSort } from "/src/utils.js";
  * [ ] Create basic discrete web components from templates
  * [ ] Tidy css and class names
  * [ ] Resolve minor css issues in iOS
+ * [ ] Something for long fetch durations?
  *
  * Notes
  * [1] I am aware of race conditions and the dangers of managing state in this way (side effects)
@@ -52,25 +53,9 @@ const state = {
 const newsRow = document.getElementById("newsRow");
 
 /**
- * Fetch Data
- */
-fetch(API_URL, API_OPTIONS)
-  .then(res => res.json())
-  .then(res => {
-    // Would normally go via some state management
-    state.data = res.Response.results;
-    SortDataWithFieldName(state.sortField, state.sortReverse);
-    // Some setup which would normally live in their respective components
-    SetupSortButtons();
-    HideLoader();
-    // Render results
-    return RenderDataFromState();
-  });
-
-/**
  * Render Data from State
  */
-function RenderDataFromState() {
+function renderDataFromState() {
   const tableBody = document.querySelector(".newsContents");
   const tableContents = document.createDocumentFragment();
 
@@ -98,15 +83,17 @@ function RenderDataFromState() {
 
 /**
  * Update state.sortField, state.sortReverse and state.data with provided fieldName
+ *
+ * Depends on imported basicSort()
  */
-function SortDataWithFieldName(fieldName) {
+function sortDataWithFieldName(fieldName) {
   if (state.sortField !== fieldName) {
     state.sortField = fieldName;
   } else {
     state.sortReverse = !state.sortReverse;
   }
 
-  SetActiveSortClass(fieldName, state.sortReverse);
+  setActiveSortClass(fieldName, state.sortReverse);
 
   state.data.sort(basicSort(state.sortField, state.sortReverse));
 }
@@ -114,7 +101,7 @@ function SortDataWithFieldName(fieldName) {
 /**
  * Set active class on sort nodes for styling
  */
-function SetActiveSortClass(fieldName, reverse) {
+function setActiveSortClass(fieldName, reverse) {
   const activeSortLink = document.querySelector(
     `.headCell__link[data-fieldName=${fieldName}]`
   );
@@ -132,7 +119,7 @@ function SetActiveSortClass(fieldName, reverse) {
 /**
  * Hide Loader
  */
-function HideLoader() {
+function hideLoader() {
   const loader = document.querySelector(".loader");
   const table = document.querySelector(".newsTable");
   loader.style.display = "none";
@@ -142,13 +129,29 @@ function HideLoader() {
 /**
  * Setup sort button events
  */
-function SetupSortButtons() {
+function setupSortButtons() {
   const sortButtons = document.querySelectorAll(".headCell__link");
   for (const button of sortButtons) {
     button.addEventListener("click", e => {
       const fieldName = e.currentTarget.getAttribute("data-fieldName");
-      SortDataWithFieldName(fieldName);
-      RenderDataFromState();
+      sortDataWithFieldName(fieldName);
+      renderDataFromState();
     });
   }
 }
+
+/**
+ * Fetch Data / Init();
+ */
+fetch(API_URL, API_OPTIONS)
+  .then(res => res.json())
+  .then(res => {
+    // Would normally go via some state management
+    state.data = res.Response.results;
+    sortDataWithFieldName(state.sortField, state.sortReverse);
+    // Some setup which would normally live in their respective components
+    setupSortButtons();
+    hideLoader();
+    // Render results
+    return renderDataFromState();
+  });
