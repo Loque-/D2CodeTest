@@ -11,6 +11,7 @@ import { basicSort } from "/src/utils.js";
  * [x] Add some basic styling
  * [x] Display some notification to the user that we are fetching data
  * [ ] Catch error and render something to the user
+ * [ ] Add a readme for context and information to anyone observing the project from github
  *
  * Extra
  * [x] Put items together and render in one go instead of render during iterating
@@ -19,6 +20,7 @@ import { basicSort } from "/src/utils.js";
  * [x] Move Utility function to module and import
  * [ ] Create basic discrete web components from templates
  * [ ] Tidy css and class names
+ * [ ] Resolve minor css issues in iOS
  *
  * Notes
  * [1] I am aware of race conditions and the dangers of managing state in this way (side effects)
